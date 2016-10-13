@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
         lengthEditText = (EditText) findViewById(R.id.length_edit_text);
 
         startEditText.setText("0");
-        endEditText.setText("0");
+        setEnd(0);
         lengthEditText.setText("0");
 
         startEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     }
 
     private void endFieldFocusLost() {
+        setEnd(Integer.parseInt(endEditText.getText().toString()));
         calculateLength();
     }
 
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     private void calculateLength() {
         int start = Integer.parseInt(startEditText.getText().toString());
-        int end = Integer.parseInt(endEditText.getText().toString());
+        int end = getEnd();
         int length = end - start;
         lengthEditText.setText(String.valueOf(length));
     }
@@ -83,11 +84,19 @@ public class MainActivity extends AppCompatActivity implements Observer {
     private void calculateEnd() {
         int start = Integer.parseInt(startEditText.getText().toString());
         int length = Integer.parseInt(lengthEditText.getText().toString());
-        endEditText.setText(String.valueOf(start + length));
+        setEnd(start + length);
     }
 
     @Override
     public void update(Observable o, Object arg) {
 
+    }
+
+    private int getEnd() {
+        return Integer.parseInt(endEditText.getText().toString());
+    }
+
+    private void setEnd(int end) {
+        endEditText.setText(String.valueOf(end));
     }
 }
