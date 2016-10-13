@@ -22,17 +22,13 @@ public class MainActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initViews();
 
         interval = new Interval();
         interval.addObserver(this);
         update(interval, null);
 
-        startEditText = (EditText) findViewById(R.id.start_edit_text);
-        endEditText = (EditText) findViewById(R.id.end_edit_text);
-        lengthEditText = (EditText) findViewById(R.id.length_edit_text);
-
         startEditText.setText("0");
-        setEnd(0);
         lengthEditText.setText("0");
 
         startEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -59,6 +55,12 @@ public class MainActivity extends AppCompatActivity implements Observer {
                 }
             }
         });
+    }
+
+    private void initViews() {
+        startEditText = (EditText) findViewById(R.id.start_edit_text);
+        endEditText = (EditText) findViewById(R.id.end_edit_text);
+        lengthEditText = (EditText) findViewById(R.id.length_edit_text);
     }
 
     private void lengthFieldFocusLost() {
@@ -89,14 +91,14 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        endEditText.setText(String.valueOf(interval.getEnd()));
     }
 
     private int getEnd() {
-        return Integer.parseInt(endEditText.getText().toString());
+        return interval.getEnd();
     }
 
     private void setEnd(int end) {
-        endEditText.setText(String.valueOf(end));
+        interval.setEnd(end);
     }
 }
