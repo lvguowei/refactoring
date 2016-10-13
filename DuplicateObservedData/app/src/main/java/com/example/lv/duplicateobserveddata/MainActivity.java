@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
         interval.addObserver(this);
         update(interval, null);
 
-        startEditText.setText("0");
-        lengthEditText.setText("0");
-
         startEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -64,41 +61,33 @@ public class MainActivity extends AppCompatActivity implements Observer {
     }
 
     private void lengthFieldFocusLost() {
-        calculateEnd();
+        setLength(Integer.parseInt(lengthEditText.getText().toString()));
     }
 
     private void endFieldFocusLost() {
         setEnd(Integer.parseInt(endEditText.getText().toString()));
-        calculateLength();
     }
 
     private void startFieldFocusLost() {
-        calculateLength();
-    }
-
-    private void calculateLength() {
-        int start = Integer.parseInt(startEditText.getText().toString());
-        int end = getEnd();
-        int length = end - start;
-        lengthEditText.setText(String.valueOf(length));
-    }
-
-    private void calculateEnd() {
-        int start = Integer.parseInt(startEditText.getText().toString());
-        int length = Integer.parseInt(lengthEditText.getText().toString());
-        setEnd(start + length);
+        setStart(Integer.parseInt(startEditText.getText().toString()));
     }
 
     @Override
     public void update(Observable o, Object arg) {
+        startEditText.setText(String.valueOf(interval.getStart()));
         endEditText.setText(String.valueOf(interval.getEnd()));
+        lengthEditText.setText(String.valueOf(interval.getLength()));
     }
 
-    private int getEnd() {
-        return interval.getEnd();
+    private void setStart(int start) {
+        interval.setStart(start);
     }
 
     private void setEnd(int end) {
         interval.setEnd(end);
+    }
+
+    private void setLength(int length) {
+        interval.setLength(length);
     }
 }
