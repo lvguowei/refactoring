@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Observable;
+import java.util.Observer;
+
+public class MainActivity extends AppCompatActivity implements Observer {
 
     private EditText startEditText;
 
@@ -13,10 +16,16 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText lengthEditText;
 
+    private Interval interval;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        interval = new Interval();
+        interval.addObserver(this);
+        update(interval, null);
 
         startEditText = (EditText) findViewById(R.id.start_edit_text);
         endEditText = (EditText) findViewById(R.id.end_edit_text);
@@ -75,5 +84,10 @@ public class MainActivity extends AppCompatActivity {
         int start = Integer.parseInt(startEditText.getText().toString());
         int length = Integer.parseInt(lengthEditText.getText().toString());
         endEditText.setText(String.valueOf(start + length));
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
